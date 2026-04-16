@@ -71,7 +71,6 @@ public class WaypointNetwork : MonoBehaviour
                     // Стрелка направления
                     Vector3 dir = (path.waypoints[i + 1].position - path.waypoints[i].position).normalized;
                     Vector3 midPoint = (path.waypoints[i].position + path.waypoints[i + 1].position) / 2;
-                    DrawArrow(midPoint, dir, path.pathColor);
                 }
             }
 
@@ -89,14 +88,5 @@ public class WaypointNetwork : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void DrawArrow(Vector3 position, Vector3 direction, Color color)
-    {
-        Gizmos.color = color;
-        Vector3 right = Vector3.Cross(Vector3.up, direction).normalized;
-        Vector3 arrowPoint = position + direction * 0.5f;
-        Gizmos.DrawLine(arrowPoint + right * 0.2f, arrowPoint);
-        Gizmos.DrawLine(arrowPoint - right * 0.2f, arrowPoint);
     }
 }

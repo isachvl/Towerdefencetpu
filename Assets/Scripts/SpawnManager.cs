@@ -209,7 +209,7 @@ public class SpawnManager : MonoBehaviour
                 continue;
             }
 
-            Debug.Log($"  🧪 Спавн: {waveEnemy.enemyPrefab.name} x{waveEnemy.count} (задержка {waveEnemy.spawnDelay}с)");
+            Debug.Log($"Спавн: {waveEnemy.enemyPrefab.name} x{waveEnemy.count} (задержка {waveEnemy.spawnDelay}с)");
 
             for (int i = 0; i < waveEnemy.count; i++)
             {
@@ -224,9 +224,6 @@ public class SpawnManager : MonoBehaviour
                     yield return new WaitForSeconds(waveEnemy.spawnDelay + globalSpawnDelay);
                 }
             }
-
-            // Небольшая пауза между разными типами врагов
-            yield return new WaitForSeconds(0.5f);
         }
 
         isSpawning = false;
