@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Point_people
+  - Point_people1
+  - Point_people2
+  - rad
+  - timet
+  - timer
   layers:
   - Default
   - TransparentFX

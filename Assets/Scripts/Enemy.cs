@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
 {
     [Header("Характеристики")]
     public float speed = 2f;
-    public int health = 100;
+    public int health = 1;
     public int reward = 50;
 
     private WaypointNetwork network;

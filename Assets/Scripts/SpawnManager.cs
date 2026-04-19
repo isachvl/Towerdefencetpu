@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    private const string MonsterTag = "monster";
+    private const string EnemyTag = "Enemy";
+
     [System.Serializable]
     public class WaveEnemy
     {
@@ -124,8 +127,8 @@ public class SpawnManager : MonoBehaviour
         if (!isSpawning) return;
 
         // Убиваем всех врагов на сцене
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
+        GameObject[] monsters = FindAllSpawnedEnemies();
+        foreach (GameObject enemy in monsters)
         {
             Destroy(enemy);
         }
@@ -284,12 +287,36 @@ public class SpawnManager : MonoBehaviour
             Debug.LogError("PathNetwork не назначен в SpawnerManager!");
         }
 
-        enemyObj.tag = "Enemy";
+        enemyObj.tag = MonsterTag;
     }
 
     private int GetEnemiesCount()
     {
-        return GameObject.FindGameObjectsWithTag("Enemy").Length;
+        return FindAllSpawnedEnemies().Length;
+    }
+
+    private GameObject[] FindAllSpawnedEnemies()
+    {
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag(MonsterTag);
+        GameObject[] legacyEnemies = GameObject.FindGameObjectsWithTag(EnemyTag);
+
+        if (legacyEnemies.Length == 0)
+        {
+            return monsters;
+        }
+
+        List<GameObject> allEnemies = new List<GameObject>(monsters.Length + legacyEnemies.Length);
+        allEnemies.AddRange(monsters);
+
+        for (int i = 0; i < legacyEnemies.Length; i++)
+        {
+            if (!allEnemies.Contains(legacyEnemies[i]))
+            {
+                allEnemies.Add(legacyEnemies[i]);
+            }
+        }
+
+        return allEnemies.ToArray();
     }
 
     private float GetWaveProgress()
