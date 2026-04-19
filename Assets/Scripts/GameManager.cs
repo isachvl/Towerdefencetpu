@@ -1,6 +1,7 @@
 // GameManager.cs
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class GameManager : MonoBehaviour
     public int baseHealth = 100;
 
     [Header("UI")]
-    public Text moneyText;
-    public Text healthText;
+    public TMP_Text moneyText;
+    public TMP_Text healthText;
 
     private float spawnTimer;
 
@@ -49,8 +50,55 @@ public class GameManager : MonoBehaviour
         //winScreen.SetActive(true);
     }
 
+    public void RequestBuildTower(SimpleTowerSlot slot, int cost)
+    {
+        if (money >= cost)
+        {
+            SpendMoney(cost);
+            slot.BuildTower();
+        }
+        else
+        {
+            Debug.Log($"Недостаточно денег для постройки! Нужно {cost}, есть {money}");
+        }
+    }
+
+    public void RequestUpgradeTower(SimpleTowerSlot slot, SimpleMeleeTower tower, int cost)
+    {
+        if (money >= cost)
+        {
+            SpendMoney(cost);
+            tower.Upgrade();
+        }
+        else
+        {
+            Debug.Log($"Недостаточно денег для улучшения! Нужно {cost}, есть {money}");
+        }
+    }
+
+    private SimpleTowerSlot selectedSlotForMenu;
+
+    public void ShowTowerActions(SimpleTowerSlot slot)
+    {
+        selectedSlotForMenu = slot;
+        Debug.Log("Нажмите U для улучшения, S для продажи");
+    }
+
     private void Update()
     {
+        if (selectedSlotForMenu != null)
+        {
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                selectedSlotForMenu.UpgradeTower();
+                selectedSlotForMenu = null;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                selectedSlotForMenu.SellTower();
+                selectedSlotForMenu = null;
+            }
+        }
     }
 
     public void AddMoney(int amount)
